@@ -1,0 +1,30 @@
+trigger:
+- main
+
+pool:
+  name: self-host-pool  # Your self-hosted agent
+
+steps:
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.SourcesDirectory)'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/app.zip'
+    replaceExistingArchive: true
+
+- task: AzureRmWebAppDeployment@5
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Azure subscription 1(8ca97cad-9ab1-42a2-9d9e-bdbf8876c147)'
+    appType: 'webAppLinux'
+    WebAppName: 'azhtml'
+    ResourceGroupName: 'your-resource-group-name'  # Add this
+    package: '$(Build.ArtifactStagingDirectory)/app.zip'
+    DeploymentType: 'zipDeploy'  # Use zipDeploy for Linux
+    RuntimeStack: 'PHP|8.2'
+
+- script: |
+    echo Deployment complete.
+    echo See https://aka.ms/yaml
+  displayName: 'Run post-deployment message'
