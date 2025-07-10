@@ -16,7 +16,7 @@ steps:
 - task: AzureRmWebAppDeployment@5
   inputs:
     ConnectionType: 'AzureRM'
-    azureSubscription: 'Azure subscription 1(8ca97cad-9ab1-42a2-9d9e-bdbf8876c147)'
+    azureSubscription: ''
     appType: 'webAppLinux'
     WebAppName: 'azhtml'
     ResourceGroupName: 'your-resource-group-name'  # Add this
